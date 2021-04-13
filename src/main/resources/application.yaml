@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/travels_notes?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
-    username: "root"
-    password: "Congratulat325ol"
+    username: ""
+    password: ""
 
 mybatis:
   type-aliases-package: com.travelnotes.lms1.pojo
