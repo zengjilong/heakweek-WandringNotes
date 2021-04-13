@@ -6,11 +6,12 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigurationProperties(prefix="oss")
+@ConfigurationProperties(prefix = "oss")
 public class OSS {
     private String endpoint;
     private String keyid;
     private String keysecret;
     private String bucketname;
     private String filehost;
+    private String headPicbucket;
 }

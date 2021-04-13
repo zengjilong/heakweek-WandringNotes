@@ -1,4 +1,5 @@
 package com.travelnotes.lms1.controller;
+
 import com.travelnotes.lms1.mapper.HKMapper;
 import com.travelnotes.lms1.pojo.OSS;
 import com.travelnotes.lms1.pojo.Pic;
@@ -6,6 +7,7 @@ import com.travelnotes.lms1.server.OSSutil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -31,7 +33,7 @@ public class PicController {
         int pic = new Random().nextInt(picList.size());
         String pic_text = picMapper.getPicText(pic);
 //        System.out.println(ossProperties.getFilehost() + picList.get(pic));
-        return new Pic(ossProperties.getFilehost()+picList.get(pic), pic_text);
+        return new Pic(ossProperties.getFilehost() + picList.get(pic), pic_text);
     }
 
 
