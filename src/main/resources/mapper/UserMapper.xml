@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.travelsnotes.dao.UserMapper">
+    <select id="queryById"  resultType="UserInfo">
+        select * from travels_notes.notes_user where userId=#{id};
+    </select>
+    <select id="queryByName" parameterType="String" resultType="UserInfo">
+        select * from travels_notes.notes_user where userName=#{name};
+    </select>
+    <select id="queryByTele" parameterType="String" resultType="UserInfo">
+        select * from travels_notes.notes_user where usertele=#{phoneNumber};
+    </select>
+    <insert id="registerUser"  parameterType="UserInfo"  useGeneratedKeys="true" keyProperty="userId">
+        insert into travels_notes.notes_user(userId,userName,userPassword,usertele) values(null,#{userName},#{password},#{phoneNumber})
+    </insert>
+    <update id="updateUser" parameterType="UserInfo">
+        update travels_notes.notes_user set userName=#{userName} where;
+    </update>
+</mapper>

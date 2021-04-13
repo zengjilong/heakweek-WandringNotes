@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.travelsnotes.dao.HKMapper">
+
+    <select id="getPicText" parameterType="int" resultType="String">
+        select pic_text from travels_notes.pics where id=#{id}
+    </select>
+
+    <select id="setUsername" parameterType="String" resultType="String">
+        update travels_notes.notes_user set username=#{usrName} where userId=#{id}
+    </select>
+
+    <select id="setPhoneNumber" parameterType="String" resultType="String">
+        update travels_notes.notes_user set tele=#{phoneNumber} where userId=#{id}
+    </select>
+
+    <select id="getUsername" parameterType="int" resultType="String">
+        select username from travels_notes.notes_user where userId=#{id}
+    </select>
+
+    <select id="getActiveDays" parameterType="int" resultType="int">
+        select activedays from travels_notes.notes_user where userId=#{id}
+    </select>
+
+    <select id="getTxtNum" parameterType="int" resultType="int">
+        select txtnum from travels_notes.notes_user where userId=#{id}
+    </select>
+
+</mapper>
