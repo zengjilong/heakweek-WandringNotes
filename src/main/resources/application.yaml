@@ -3,15 +3,15 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/travels_notes?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
     username: "root"
-    password: "Congratulat325ol"
+    password: ""
 
 mybatis:
   type-aliases-package: com.travelnotes.lms1.pojo
   mapper-locations: classpath:mybatis/mapper/*.xml
 
 oss:
-  endpoint: "https://oss-cn-beijing.aliyuncs.com"
-  keyid: "LTAI5tHHErCYNKBYZ5Sh8bZV"
-  keysecret: "hcDMsewyKeKqV2Nh2R5Ofieua7Lf0T"
-  bucketname: "hk4top"
-  filehost: "https://hk4top.oss-cn-beijing.aliyuncs.com/"
+  endpoint: ""
+  keyid: ""
+  keysecret: ""
+  bucketname: ""
+  filehost: ""
