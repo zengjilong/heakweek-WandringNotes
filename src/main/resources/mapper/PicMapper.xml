@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.travelsnotes.dao.HKMapper">
+<mapper namespace="com.travelnotes.dao.HKMapper">
 
     <select id="getPicText" parameterType="int" resultType="String">
-        select pic_text from travels_notes.pics where id=#{id}
+        select pic_text from travels_notes.pics where userId=#{id}
     </select>
 
     <select id="setUsername" parameterType="String" resultType="String">

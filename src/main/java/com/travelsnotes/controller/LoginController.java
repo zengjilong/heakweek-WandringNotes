@@ -28,12 +28,11 @@ public class LoginController {
     // 登录
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public Map<String, String> Login(@RequestParam(value = "userName") String userName,
-                                     @RequestParam(value = "userPassword")String password, HttpServletRequest request){
+                                     @RequestParam(value = "password")String password, HttpServletRequest request){
         try {
             UserInfo user = userService.queryByName(userName);
-//            System.out.println(user);
             Map<String, String> map = new HashMap<>();
-            if (user != null && user.getUserPassword().equals(password)) {
+            if (user != null && user.getPassword().equals(password)) {
                 String token = UUID.randomUUID().toString();
                 request.getSession().setAttribute(token, user.getUserId());
                 map.put("token", token);
