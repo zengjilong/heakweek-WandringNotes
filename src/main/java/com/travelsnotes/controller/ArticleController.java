@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.travelsnotes.pojo.Article;
 import com.travelsnotes.pojo.Result;
 import com.travelsnotes.pojo.ResultCodeEnum;
+import com.travelsnotes.pojo.ResultPage;
 import com.travelsnotes.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -51,7 +52,7 @@ public class ArticleController {
     }
 
     @RequestMapping(value = "/listArticle",method = RequestMethod.GET)
-    Result list(@RequestParam(value = "token") String token,
+   public ResultPage list(@RequestParam(value = "token") String token,
                            @RequestParam(value = "start",defaultValue = "0")int start,
                            @RequestParam(value = "size",defaultValue = "30")int size,
                            Model model,
@@ -59,7 +60,7 @@ public class ArticleController {
    try {
            Object attribute = request.getSession().getAttribute(token);
            if (attribute == null) {
-               return Result.error(ResultCodeEnum.FAIL_TOKENNOFINDED); //token未找到
+               return ResultPage.error(ResultCodeEnum.FAIL_TOKENNOFINDED); //token未找到
            }
            int userId = (int) attribute;
            PageHelper.startPage(start, size, "articleId desc");
@@ -68,9 +69,9 @@ public class ArticleController {
            model.addAttribute("page", page);
            Map<String, PageInfo<Article>> map = new HashMap<>();
            map.put("page",page);
-            return  Result.ok(ResultCodeEnum.SUCCESS).pageData(map);
+            return  ResultPage.ok(ResultCodeEnum.SUCCESS).pageData(map);
        }catch (Exception e){
-           return null;
+           return ResultPage.error(ResultCodeEnum.PARAM_ERROR);
        }
     }
 
