@@ -22,10 +22,6 @@ import java.util.UUID;
 public class LoginController {
     @Autowired
     UserServiceImpl userService;
-    @RequestMapping(value = "/toLogin",method = RequestMethod.GET)
-    public ModelAndView toLogin(){
-        return new ModelAndView("login");
-    }
 
     // 登录
     @RequestMapping(value = "/login",method = RequestMethod.POST)

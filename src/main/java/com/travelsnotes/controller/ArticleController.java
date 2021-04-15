@@ -45,7 +45,9 @@ public class ArticleController {
             if (attribute == null) {
                 return Result.error(ResultCodeEnum.FAIL_TOKENNOFINDED);     //token未找到 20010
             }
-            String imgUrl = fileUtil.uploadPage(request, img);
+            System.out.println(111);
+            String imgUrl= fileUtil.uploadPage(request, img);
+            System.out.println(imgUrl);
             boolean flag=false;
             if (imgUrl==null) flag=true;
             int userId=(int)attribute;

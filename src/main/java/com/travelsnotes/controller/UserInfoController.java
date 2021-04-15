@@ -39,7 +39,8 @@ public class UserInfoController {
         if (attribute == null) {
             return null;
         }
-        String avatarUrl = fileUtil.uploadPage(request, file);
+        String avatarUrl=null;
+        if (file!=null) avatarUrl= fileUtil.uploadPage(request, file);
         int tempId = (int) attribute;
         try{
             userProperties.setUsername(phoneNumber, tempId);

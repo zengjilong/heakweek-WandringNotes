@@ -2,10 +2,7 @@ package com.travelsnotes.controller;
 
 
 import com.travelsnotes.dao.HKMapper;
-import com.travelsnotes.pojo.Result;
-import com.travelsnotes.pojo.ResultCodeEnum;
 import com.travelsnotes.pojo.UserActive;
-import com.travelsnotes.pojo.UserInfo;
 import com.travelsnotes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
