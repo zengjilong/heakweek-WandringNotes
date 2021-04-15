@@ -36,7 +36,7 @@ public class LoginController {
             Map<String, Object> map = new HashMap<>();
             if (user != null ){
                 if (user.getPassword().equals(password)){
-                String token = UUID.randomUUID().toString();
+                String token = UUID.randomUUID().toString().replaceAll("-","").toUpperCase();
                 request.getSession().setAttribute(token, user.getUserId());
                 map.put("token", token);
                 return Result.ok(ResultCodeEnum.SUCCESS_LOGIN).data(map);   //返回登陆成功 token
