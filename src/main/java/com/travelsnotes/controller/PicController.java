@@ -1,15 +1,11 @@
 package com.travelsnotes.controller;
 
 
-import com.aliyun.oss.OSSClientBuilder;
-import com.aliyun.oss.model.OSSObjectSummary;
-import com.aliyun.oss.model.ObjectListing;
 import com.travelsnotes.dao.HKMapper;
 import com.travelsnotes.pojo.OSS;
 import com.travelsnotes.pojo.Pic;
 import com.travelsnotes.service.OSSutil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
