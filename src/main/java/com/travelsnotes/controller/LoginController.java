@@ -22,7 +22,7 @@ import java.util.UUID;
 public class LoginController {
     @Autowired
     UserServiceImpl userService;
-    @RequestMapping("/toLogin")
+    @RequestMapping(value = "/toLogin",method = RequestMethod.GET)
     public ModelAndView toLogin(){
         return new ModelAndView("login");
     }

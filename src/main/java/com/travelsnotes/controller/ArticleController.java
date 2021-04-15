@@ -8,15 +8,18 @@ import com.travelsnotes.pojo.Result;
 import com.travelsnotes.pojo.ResultCodeEnum;
 import com.travelsnotes.pojo.ResultPage;
 import com.travelsnotes.service.ArticleService;
+import com.travelsnotes.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.crypto.Data;
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -28,23 +31,28 @@ public class ArticleController {
 
     @Autowired
     ArticleService articleService;
-
+    @Autowired
+    FileUploadUtil fileUtil;
     @RequestMapping(value = "/addArticle",method = RequestMethod.POST)
     Result createArticle(@RequestParam(value = "token") String token,
                                         @RequestParam(value = "title",required = false) String title,
                                       @RequestParam(value = "content",required = false) String content,
                                       @RequestParam(value = "tag",required = false,defaultValue = "1") int tag,
-                                      @RequestParam(value = "img",required = false) String img,
+                                      @RequestParam(value = "img",required = false) MultipartFile img,
                                       HttpServletRequest request){
         try {
             Object attribute = request.getSession().getAttribute(token);
             if (attribute == null) {
                 return Result.error(ResultCodeEnum.FAIL_TOKENNOFINDED);     //token未找到 20010
             }
+            String imgUrl = fileUtil.uploadPage(request, img);
+            boolean flag=false;
+            if (imgUrl==null) flag=true;
             int userId=(int)attribute;
             if (title==null||title.length()==0) title="记录今日的美好";
-            Article article = new Article(title, content, tag, img, new Date(), userId);
+            Article article = new Article(title, content, tag, imgUrl, new Date(), userId);
             articleService.addArticle(article);
+            if (flag) return Result.error(ResultCodeEnum.FAIL_SAVEFILE); //添加手记成功但图片存取失败
             return Result.ok(ResultCodeEnum.SUCCESS_ADDARTICLE) ; //添加文章成功
         }catch (Exception e){
            return Result.error(ResultCodeEnum.PARAM_ERROR); //参数不正确

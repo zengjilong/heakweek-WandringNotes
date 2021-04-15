@@ -20,7 +20,8 @@ public enum ResultCodeEnum {
     SUCCESS_LOGIN(true, 200, "登陆成功!"),
     SUCCESS_REGISTER(true, 200, "注册成功!"),
     SUCCESS_USABLE(true, 200, "可以使用该用户名!"),
-    SUCCESS_ADDARTICLE(true, 200, "添加文章成功!");
+    FAIL_SAVEFILE(true, 201, "手记添加成功但图片存取失败!"),
+    SUCCESS_ADDARTICLE(true, 200, "添加手记成功!");
     private Boolean status; //响应是否成功
     private Integer code; //返回码
     private String message; //返回消息
