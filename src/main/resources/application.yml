@@ -3,6 +3,8 @@ server:
 
 file:
   staticAccessPath: /api/file/**  #映射路径
+  #文件上传目录（注意Linux和Windows上的目录结构不同）
+  #file.uploadFolder=/root/uploadFiles/
   uploadFolder: d://uploadsFiles/   #本地路径
   fileUrl: http://localhost:8080/api/file/
 spring:

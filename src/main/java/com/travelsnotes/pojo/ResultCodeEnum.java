@@ -16,6 +16,7 @@ public enum ResultCodeEnum {
     ERROR_NOT_EXISTS_USER(false, 21007, "用户不存在!"),
     ERROR_PASSWORD(false, 21008, "密码错误,请重新输入!"),
     FAIL_REGISTER(false, 21009, "注册失败!"),
+    FAIL_UPDATE(false, 21009, "修改失败!"),
     FAIL_TOKENNOFINDED(false, 21010, "token未找到!"),
     SUCCESS_LOGIN(true, 200, "登陆成功!"),
     SUCCESS_REGISTER(true, 200, "注册成功!"),
