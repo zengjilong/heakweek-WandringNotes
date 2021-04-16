@@ -12,7 +12,7 @@
         select * from notes_article where articleId=#{articleId}
     </select>
     <select id="listArticle" resultType="Article">
-    select notes_article.* from notes_article where userId=userId;
+    select notes_article.* from notes_article where userId=#{userId};
     </select>
     <delete id="deleteById">
         delete from notes_article where articleId=#{articleId}

@@ -31,21 +31,24 @@ public class UserInfoController {
     //设置用户信息
     @PostMapping("/updateInfo")
     public Result setUserInfo(@RequestParam(value = "token") String token,
-                              @RequestParam(value = "userName")String userName,
+                              @RequestParam(value = "userName",required = false)String userName,
                               @RequestParam(value = "phoneNumber",required = false) String phoneNumber,
                               @RequestParam(value = "avatar",required = false) MultipartFile file,
                                 HttpServletRequest request){
         Object attribute = request.getSession().getAttribute(token);
         if (attribute == null) {
-            return null;
+            return Result.error(ResultCodeEnum.FAIL_TOKENNOFINDED);
         }
-        String avatarUrl=null;
-        if (file!=null) avatarUrl= fileUtil.uploadPage(request, file);
+       String avatarUrl= fileUtil.uploadPage(request, file);
         int tempId = (int) attribute;
         try{
-            userProperties.setUsername(phoneNumber, tempId);
-            userProperties.setPhoneNumber(userName, tempId);
+            if (userName!=null&&userName.length()!=0)
+            userProperties.setUsername(userName, tempId);
+            if (phoneNumber!=null&&phoneNumber.length()!=0)
+            userProperties.setPhoneNumber(phoneNumber, tempId);
+            if (avatarUrl!=null&&avatarUrl.length()!=0)
             userProperties.setAvatar(avatarUrl, tempId);
+            else return Result.ok(ResultCodeEnum.FAIL_SAVEFILE);
         }catch(Exception e){
             return Result.error(ResultCodeEnum.FAIL_UPDATE);
         }
@@ -54,16 +57,21 @@ public class UserInfoController {
 
     //设置用户头像URL
     @PostMapping("/uploadAvatar")
-    public String setUserAvatar(UserInfo userInfo){
-        int tempId = 1;
-        try{
-            if(ossProperties.setAvatar(userInfo.getAvatarUrl(), tempId)){
-                return "Result! Get";
-            }else{
-                return "Failed!";
+    public Result setUserAvatar(@RequestParam(value = "token") String token,
+                                HttpServletRequest request,
+                                @RequestParam( value = "avatar") MultipartFile file) {
+        try {
+            Object attribute = request.getSession().getAttribute(token);
+            if (attribute == null) {
+                return Result.error(ResultCodeEnum.FAIL_TOKENNOFINDED);
             }
-        }catch(Exception e){
-            return "Catch Exception";
+            String avatarUrl = fileUtil.uploadPage(request, file);
+            int tempId = (int) attribute;
+            if (avatarUrl == null) return Result.error(ResultCodeEnum.FILE_UPLOAD_ERROR);
+            userProperties.setAvatar(avatarUrl,tempId);
+            return Result.ok();
+        }catch (Exception e){
+            return Result.error();
         }
     }
 

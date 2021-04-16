@@ -1,10 +1,12 @@
 package com.travelsnotes;
 
+import com.travelsnotes.dao.HKMapper;
 import com.travelsnotes.pojo.Article;
 import com.travelsnotes.pojo.UserInfo;
 import com.travelsnotes.pojo.UserInfo;
 import com.travelsnotes.service.ArticleService;
 import com.travelsnotes.service.UserServiceImpl;
+import com.travelsnotes.util.TodayLoginUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +21,32 @@ class TravelsNotesApplicationTests {
     UserServiceImpl userService;
     @Autowired
     ArticleService articleService;
+    @Autowired
+    HKMapper mapper;
+    @Test
+    void contextLoadssss() {
+        System.out.println(mapper.setUsername("zengji",1));
+        System.out.println(mapper.setPhoneNumber("13117991309",1));
+
+    }
+    @Test
+    void contextLoadsss() {
+        System.out.println(mapper.getActiveDays(1));
+        System.out.println(mapper.getTxtNum(1));
+        System.out.println(mapper.getUsername(1));
+    }
+
+    @Test
+    void contextLoadss() {
+//        System.out.println(userService.setRecentLogin(1, new Date()));
+        UserInfo userInfo = userService.queryById(1);
+        Date login = userInfo.getRecentlyLogin();
+        System.out.println(login);
+       if (TodayLoginUtil.getToday(login)){
+            userService.addActiveDays(1);
+        }
+
+    }
     @Test
     void contextLoads() {
       //  userService.registerUser("zeng","12345","12345678900");

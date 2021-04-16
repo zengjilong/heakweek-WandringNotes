@@ -19,7 +19,7 @@ spring:
   datasource:
     username: "root"
     password: "022015"
-    url: jdbc:mysql://localhost:3306/travels_notes?serverTimezone=UTC&useUnicode=true&useSSL=false&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3306/travels_notes?serverTimezone=Asia/Shanghai&useUnicode=true&useSSL=false&characterEncoding=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 

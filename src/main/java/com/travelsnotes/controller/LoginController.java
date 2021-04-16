@@ -5,6 +5,7 @@ import com.travelsnotes.pojo.Result;
 import com.travelsnotes.pojo.ResultCodeEnum;
 import com.travelsnotes.pojo.UserInfo;
 import com.travelsnotes.service.UserServiceImpl;
+import com.travelsnotes.util.TodayLoginUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -35,7 +37,12 @@ public class LoginController {
                 String token = UUID.randomUUID().toString().replaceAll("-","").toUpperCase();
                 request.getSession().setAttribute(token, user.getUserId());
                 map.put("token", token);
-                return Result.ok(ResultCodeEnum.SUCCESS_LOGIN).data(map);   //返回登陆成功 token
+                Date date = user.getRecentlyLogin();
+                if (!TodayLoginUtil.getToday(date)){    //如果当天未登录
+                    userService.addActiveDays(user.getUserId());
+                }
+                userService.setRecentLogin(user.getUserId(),date);
+                 return Result.ok(ResultCodeEnum.SUCCESS_LOGIN).data(map);   //返回登陆成功 token
                 } else {
                 return  Result.error(ResultCodeEnum.ERROR_PASSWORD);    //密码错误
                 }

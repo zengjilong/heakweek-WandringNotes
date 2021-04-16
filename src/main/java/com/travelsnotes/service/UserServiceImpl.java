@@ -7,6 +7,8 @@ import com.travelsnotes.pojo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class UserServiceImpl implements UserService{
 
@@ -26,5 +28,15 @@ public class UserServiceImpl implements UserService{
     @Override
     public int registerUser(UserInfo userInfo) {
         return  userMapper.registerUser(userInfo);
+    }
+
+    @Override
+    public int setRecentLogin(int id, Date date) {
+        return userMapper.setRecentLogin(id,date);
+    }
+
+    @Override
+    public int addActiveDays(int id) {
+        return userMapper.addActiveDays(id);
     }
 }

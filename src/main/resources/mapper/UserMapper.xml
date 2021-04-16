@@ -10,6 +10,8 @@
         <result column="userPassword" property="password"></result>
         <result column="usertele" property="phoneNumber"></result>
         <result column="avatarUrl" property="avatarUrl"></result>
+        <result column="activeDays" property="activeDays"></result>
+        <result column="recentlyLogin" property="recentlyLogin"></result>
     </resultMap>
 
     <select id="queryById"  resultMap="userMap">
@@ -27,4 +29,11 @@
     <update id="updateUser" parameterType="UserInfo">
         update travels_notes.notes_user set userName=#{userName} where;
     </update>
+    <update id="setRecentLogin" >
+        update travels_notes.notes_user set recentlyLogin=#{date} where userId=#{id};
+    </update>
+    <update id="addActiveDays" >
+        update travels_notes.notes_user set activeDays=activeDays+1 where userId=#{id};
+    </update>
+
 </mapper>
