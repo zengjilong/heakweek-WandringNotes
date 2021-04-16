@@ -6,6 +6,7 @@ import com.travelsnotes.pojo.OSS;
 import com.travelsnotes.pojo.Pic;
 import com.travelsnotes.service.OSSutil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +27,7 @@ public class PicController {
     private HKMapper picMapper;
 
     @GetMapping("/getRandPic")
+    @CrossOrigin
     public Pic getRandomPic() throws IOException {
         String bucketName = ossProperties.getBucketname();
         //获取图片列表

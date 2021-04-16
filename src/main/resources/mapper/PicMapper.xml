@@ -7,7 +7,9 @@
     <select id="getPicText" parameterType="int" resultType="String">
         select pic_text from travels_notes.pics where userId=#{id}
     </select>
-
+    <select id="getAvatar" resultType="String" >
+        select avatarUrl from travels_notes.notes_user where userId=#{id};
+    </select>
     <update id="setUsername">
         update travels_notes.notes_user set userName=#{userName} where userId=#{id}
     </update>

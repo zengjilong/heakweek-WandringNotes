@@ -13,5 +13,6 @@ public interface ArticleMapper {
     public void deleteById(int articleId);
     public Article getById(int articleId);
     public int update(Article article);
+    public int addPicture(String imgUrl);
     public List<Article> listArticle(int userId);
 }

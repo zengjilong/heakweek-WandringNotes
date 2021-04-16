@@ -24,6 +24,11 @@ class TravelsNotesApplicationTests {
     @Autowired
     HKMapper mapper;
     @Test
+    void contextLoadsssss() {
+//        mapper.getTxtNum(8);
+        mapper.getAvatar(1);
+    }
+    @Test
     void contextLoadssss() {
         System.out.println(mapper.setUsername("zengji",1));
         System.out.println(mapper.setPhoneNumber("13117991309",1));
@@ -62,7 +67,7 @@ class TravelsNotesApplicationTests {
     @Test
     void articleTest(){
         for (int i = 0; i < 40; i++) {
-            Article article1 = new Article("新云"+i, "记录美好时刻", 1, "c:/picture", new Date(), 6);
+            Article article1 = new Article("新云"+i, "记录美好时刻", "c:/picture", new Date(), 6);
             articleService.addArticle(article1);
             //System.out.println(articleService.getById(article1.getArticleId()));
             System.out.println(article1);

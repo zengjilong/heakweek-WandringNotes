@@ -5,12 +5,23 @@
     <title>Title</title>
 </head>
 <body>
-<form action="/article/addArticle" method="post">
+<form action="http://47.102.220.227:8080/article/addArticle" enctype="application/x-www-form-urlencoded" method="post">
+    <input type="text" name="token">
     <input type="text" name="title">
     <input type="text" name="content">
-    <input type="text" name="tag">
-    <input type="text" name="img">
     <input type="date" name="date">
+    <input type="file" name="img">
+    <input type="submit" value="提交">
+</form>
+<form action="updateInfo" enctype="multipart/form-data" method="post">
+    <input type="file" name="avatar">
+    <input type="text" name="token">
+    <input type="text" name="userName">
+    <input type="submit" value="提交">
+</form>
+<form action="/uploadAvatar"  method="post">
+    <input type="text" name="avatar">
+    <input type="" name="token">
     <input type="submit" value="提交">
 </form>
 </body>

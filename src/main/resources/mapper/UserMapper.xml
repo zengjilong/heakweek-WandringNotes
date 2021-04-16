@@ -17,6 +17,8 @@
     <select id="queryById"  resultMap="userMap">
         select * from travels_notes.notes_user where userId=#{id};
     </select>
+
+
     <select id="queryByName" parameterType="String" resultMap="userMap">
         select * from travels_notes.notes_user where userName=#{name};
     </select>

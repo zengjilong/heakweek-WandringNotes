@@ -5,8 +5,11 @@
 <mapper namespace="com.travelsnotes.dao.ArticleMapper">
 <!--    创建article-->
     <insert id="addArticle" parameterType="Article">
-        insert into notes_article(articleId,title,content,tag,img,date,userId ) values (null,#{title},#{content},#{tag},#{img},#{date},#{userId})
+        insert into notes_article(articleId,title,content,img,date,userId ) values (null,#{title},#{content},#{img},#{date},#{userId})
     </insert>
+    <update id="addPicture">
+        update notes_article  set img=#{imgUrl} where article;
+    </update>
 <!--    通过id获取article-->
     <select id="getById" resultType="Article">
         select * from notes_article where articleId=#{articleId}

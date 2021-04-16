@@ -8,13 +8,11 @@ import com.travelsnotes.pojo.Result;
 import com.travelsnotes.pojo.ResultCodeEnum;
 import com.travelsnotes.pojo.ResultPage;
 import com.travelsnotes.service.ArticleService;
+import com.travelsnotes.util.DateConverterConfig;
 import com.travelsnotes.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,21 +25,33 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/article")
+@CrossOrigin
 public class ArticleController {
 
     @Autowired
     ArticleService articleService;
     @Autowired
     FileUploadUtil fileUtil;
+    @Autowired
+    DateConverterConfig dateConverter;
+    @RequestMapping(value = "/file",method = RequestMethod.POST)
+    @CrossOrigin
+    void createArticle(@RequestPart(value = "file",required = false) MultipartFile file){
+        System.out.println(file);
+        System.out.println(file==null);
+        System.out.println(file.getSize());
+    }
     @RequestMapping(value = "/addArticle",method = RequestMethod.POST)
-    Result createArticle(@RequestParam(value = "token") String token,
-                                        @RequestParam(value = "title",required = false) String title,
-                                      @RequestParam(value = "content",required = false) String content,
-                                      @RequestParam(value = "tag",required = false,defaultValue = "1") int tag,
-                                      @RequestParam(value = "img",required = false) MultipartFile img,
-                                      HttpServletRequest request){
+    @CrossOrigin    //@RequestBody Map<String,Object> params,HttpServletRequest request ){
+    Result createArticle(
+                          @RequestPart(value = "img",required = false) MultipartFile img,
+                          @RequestParam(value = "token") String token,
+                          @RequestParam(value = "title",required = false) String title,
+                          @RequestParam(value = "content",required = false) String content,
+                          HttpServletRequest request){
         try {
             Object attribute = request.getSession().getAttribute(token);
+            System.out.println(token);
             if (attribute == null) {
                 return Result.error(ResultCodeEnum.FAIL_TOKENNOFINDED);     //token未找到 20010
             }
@@ -51,8 +61,15 @@ public class ArticleController {
             boolean flag=false;
             if (imgUrl==null) flag=true;
             int userId=(int)attribute;
+//            String title = (String) params.get("title");
             if (title==null||title.length()==0) title="记录今日的美好";
-            Article article = new Article(title, content, tag, imgUrl, new Date(), userId);
+//            Date date1=null;
+////            String date = (String) params.get("date");
+//            if (date==null||date.length()==0) date1=new Date();
+//            else date1=dateConverter.convert(date);
+//            System.out.println(date);
+////            String content = (String) params.get("content");
+            Article article = new Article(title, content,imgUrl,new Date(), userId);
             articleService.addArticle(article);
             if (flag) return Result.error(ResultCodeEnum.FAIL_SAVEFILE); //添加手记成功但图片存取失败
             return Result.ok(ResultCodeEnum.SUCCESS_ADDARTICLE) ; //添加文章成功
@@ -61,28 +78,35 @@ public class ArticleController {
         }
     }
 
-    @RequestMapping(value = "/listArticle",method = RequestMethod.GET)
-   public ResultPage list(@RequestParam(value = "token") String token,
-                           @RequestParam(value = "start",defaultValue = "0")int start,
-                           @RequestParam(value = "size",defaultValue = "30")int size,
-                           Model model,
-                           HttpServletRequest request)throws Exception{
-   try {
-           Object attribute = request.getSession().getAttribute(token);
-           if (attribute == null) {
+    @RequestMapping(value = "/listArticle",method = RequestMethod.POST)
+    @CrossOrigin
+   public ResultPage list(@RequestBody Map<String,String> params,HttpServletRequest request)throws Exception{
+        try {
+           String token=params.get("token");
+            System.out.println(token);
+            Object attribute = request.getSession().getAttribute(token);
+            System.out.println(attribute);
+            if (token == null) {
                return ResultPage.error(ResultCodeEnum.FAIL_TOKENNOFINDED); //token未找到
            }
-           int userId = (int) attribute;
+           int userId = (int)attribute;
+           int start=0;
+           String start1 = params.get("start");
+           if (start1==null||start1.length()==0) start=0;
+           else start=Integer.valueOf(params.get("start"));
+           String size1 = params.get("size");
+           int size=30;
+           if (size1==null||size1.length()==0) size=30;
+           else size=Integer.valueOf(params.get("size"));
            PageHelper.startPage(start, size, "articleId desc");
            List<Article> articleList = articleService.listArticle(userId);
            PageInfo<Article> page = new PageInfo<>(articleList);
-           model.addAttribute("page", page);
            Map<String, PageInfo<Article>> map = new HashMap<>();
            map.put("page",page);
             return  ResultPage.ok(ResultCodeEnum.SUCCESS).pageData(map);
-       }catch (Exception e){
+        }catch (Exception e){
            return ResultPage.error(ResultCodeEnum.PARAM_ERROR);
-       }
-    }
+        }
+        }
 
 }

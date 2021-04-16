@@ -19,8 +19,10 @@ public interface HKMapper {
 
     String getUsername(int id);
 
+    String getAvatar(int id);
+
     int getActiveDays(int id);
 
-    int getTxtNum(int id);
+    Object getTxtNum(int id);
 
 }

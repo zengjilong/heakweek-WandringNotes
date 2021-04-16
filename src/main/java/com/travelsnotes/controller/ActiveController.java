@@ -7,9 +7,7 @@ import com.travelsnotes.pojo.ResultCodeEnum;
 import com.travelsnotes.pojo.UserActive;
 import com.travelsnotes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -24,9 +22,10 @@ public class ActiveController {
 
     @Autowired
     UserService userService;
-    @GetMapping("/getUserActive")
-    public Result getActive(@RequestParam(value = "token")String token, HttpServletRequest request) {
-        Object attribute = request.getSession().getAttribute(token);
+    @RequestMapping(value = "/getUserActive",method = RequestMethod.POST)
+    @CrossOrigin
+    public Result getActive(@RequestBody Map<String,String> param, HttpServletRequest request) {
+        Object attribute = request.getSession().getAttribute(param.get("token"));
         if (attribute == null) {
             return Result.error(ResultCodeEnum.FAIL_TOKENNOFINDED);
         }
@@ -36,7 +35,11 @@ public class ActiveController {
         try {
             map.put("userName",mapper.getUsername(tempId));
            map.put("ActiveDays",new Integer(mapper.getActiveDays(tempId)));
-           map.put("txtNum",new Integer(mapper.getTxtNum(tempId)));
+            Object txtNum = mapper.getTxtNum(tempId);
+            System.out.println(txtNum);
+            if (txtNum==null) txtNum="0";
+            System.out.println(txtNum);
+            map.put("txtNum",txtNum);
         } catch (Exception e) {
             return Result.error(ResultCodeEnum.PARAM_ERROR);
         }
