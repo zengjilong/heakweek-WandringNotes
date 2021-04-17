@@ -6,6 +6,7 @@ import com.travelsnotes.pojo.Result;
 import com.travelsnotes.pojo.ResultCodeEnum;
 import com.travelsnotes.pojo.UserInfo;
 import com.travelsnotes.service.UserServiceImpl;
+import com.travelsnotes.util.MD5Util;
 import com.travelsnotes.util.TodayLoginUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,26 +25,23 @@ public class LoginController {
     @Autowired
     UserServiceImpl userService;
 
+    @Autowired
+    MD5Util md5Util;
     // 登录
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     @CrossOrigin
-    public Result Login(@RequestBody UserInfo userInfo, HttpServletRequest request){
+    public Result Login(@RequestParam(value = "userName",required = false)String userName,
+                        @RequestParam(value = "password",required = false)String password, HttpServletRequest request){
         try {
-//            System.out.println(json.get("userName"));
-//            System.out.println(json.get("password"));
-//            String  userName =  json.get("userName").getAsString();
-//            String password=  json.get("password").getAsString();
+//            String password = params.get("password");
 //            String userName = params.get("userName");
-////          String password = params.get("password");
-            String password = userInfo.getPassword();
-            String userName = userInfo.getUserName();
             System.out.println(userName);
             System.out.println(password);
             UserInfo user = userService.queryByName(userName);
             Map<String, Object> map = new HashMap<>();
             if (user != null ){
                 System.out.println(111);
-                if (user.getPassword().equals(password)){
+                if (md5Util.checkPassword(password,user.getPassword())){
                 String token = UUID.randomUUID().toString().replaceAll("-","").toUpperCase();
                 request.getSession().setAttribute(token, user.getUserId());
                 map.put("token", token);

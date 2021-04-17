@@ -25,8 +25,8 @@
     <select id="queryByTele" parameterType="String" resultMap="userMap">
         select * from travels_notes.notes_user where usertele=#{phoneNumber};
     </select>
-    <insert id="registerUser"  parameterType="UserInfo"  useGeneratedKeys="true" keyProperty="userId">
-        insert into travels_notes.notes_user(userId,userName,userPassword,usertele) values(null,#{userName},#{password},#{phoneNumber})
+    <insert id="registerUser" >
+        insert into travels_notes.notes_user(userId,userName,userPassword) values(null,#{userName},#{password})
     </insert>
     <update id="updateUser" parameterType="UserInfo">
         update travels_notes.notes_user set userName=#{userName} where;

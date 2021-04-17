@@ -31,7 +31,7 @@ public class UserInfoController {
     @RequestMapping(value = "/updateInfo",method = RequestMethod.POST)
     @CrossOrigin
     public Result setUserInfo(@RequestPart(value = "avatar",required = false) MultipartFile file,
-                              @RequestParam(value = "token") String token,
+                              @RequestParam(value = "token",required = false) String token,
                               @RequestParam(value = "userName",required = false)String userName,
                               @RequestParam(value = "phoneNumber",required = false) String phoneNumber,
                                 HttpServletRequest request){
@@ -60,14 +60,15 @@ public class UserInfoController {
     //设置用户头像URL
     @RequestMapping(value = "/uploadAvatar",method = RequestMethod.POST)
     @CrossOrigin
-    public Result setUserAvatar( @RequestPart( value = "avatar") MultipartFile file,
-                                 @RequestParam(value = "token") String token,
+    public Result setUserAvatar( @RequestPart( value = "avatar",required = false) MultipartFile file,
+                                 @RequestParam(value = "token",required = false) String token,
                                 HttpServletRequest request) {
         try {
             Object attribute = request.getSession().getAttribute(token);
             if (attribute == null) {
                 return Result.error(ResultCodeEnum.FAIL_TOKENNOFINDED);
             }
+            if (file==null) return Result.error(ResultCodeEnum.FAIL_AVATERNONULL);
             String avatarUrl = fileUtil.uploadPage(request, file);
             int tempId = (int) attribute;
             if (avatarUrl == null||avatarUrl.length()==0) return Result.error(ResultCodeEnum.FILE_UPLOAD_ERROR);
@@ -81,9 +82,9 @@ public class UserInfoController {
     //返回用户头像URL
     @RequestMapping(value = "/user/getUserAvatar",method = RequestMethod.POST)
     @CrossOrigin
-    public Result getUserInfo(@RequestBody Map<String,String> param,HttpServletRequest request) {
+    public Result getUserInfo(@RequestParam(value = "token",required = false)String token,HttpServletRequest request) {
         try {
-            Object attribute = request.getSession().getAttribute(param.get("token"));
+            Object attribute = request.getSession().getAttribute(token);
             if (attribute == null) {
                 return Result.error(ResultCodeEnum.FAIL_TOKENNOFINDED);
             }

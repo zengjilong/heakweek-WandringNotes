@@ -6,11 +6,14 @@ import com.travelsnotes.pojo.UserInfo;
 import com.travelsnotes.pojo.UserInfo;
 import com.travelsnotes.service.ArticleService;
 import com.travelsnotes.service.UserServiceImpl;
+import com.travelsnotes.util.MD5Util;
 import com.travelsnotes.util.TodayLoginUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 
@@ -23,10 +26,16 @@ class TravelsNotesApplicationTests {
     ArticleService articleService;
     @Autowired
     HKMapper mapper;
+    @Autowired
+    MD5Util md5Util;
     @Test
-    void contextLoadsssss() {
+    void contextLoadsssss() throws UnsupportedEncodingException, NoSuchAlgorithmException {
 //        mapper.getTxtNum(8);
-        mapper.getAvatar(1);
+//        mapper
+        String s = md5Util.EncoderByMd5("12345");
+//        gnzLDuqKcGxMNKFokfhOew==
+        //gnzLDuqKcGxMNKFokfhOew==
+        System.out.println(md5Util.checkPassword("12345",s));
     }
     @Test
     void contextLoadssss() {
@@ -59,9 +68,9 @@ class TravelsNotesApplicationTests {
         System.out.println(userService.queryById(611211));
         System.out.println(userService.queryByName("root"));
         UserInfo uu=new UserInfo();
-        uu.setUserName("ijiii");
+        uu.setUserName("ijii22i");
         uu.setPassword("12134");
-        System.out.println(userService.registerUser(uu));
+        System.out.println(userService.registerUser(uu.getUserName(),uu.getPassword()));
         System.out.println(uu);
     }
     @Test

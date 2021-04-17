@@ -14,7 +14,7 @@ public interface UserMapper {
    public UserInfo queryById(int id);
    public UserInfo queryByName(String name);
    public UserInfo queryByTele(String usertele);
-   public int registerUser(UserInfo userInfo);
+   public int registerUser(@Param("userName") String userName, @Param("password")String password);
    public int updateUser(UserInfo user);
    public int deleteUser(String name);
    public int setRecentLogin(@Param("id") int id,@Param("date") Date date);

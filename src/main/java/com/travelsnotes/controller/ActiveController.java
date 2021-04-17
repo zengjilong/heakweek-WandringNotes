@@ -24,8 +24,8 @@ public class ActiveController {
     UserService userService;
     @RequestMapping(value = "/getUserActive",method = RequestMethod.POST)
     @CrossOrigin
-    public Result getActive(@RequestBody Map<String,String> param, HttpServletRequest request) {
-        Object attribute = request.getSession().getAttribute(param.get("token"));
+    public Result getActive(@RequestParam(value = "token",required = false) String token, HttpServletRequest request) {
+        Object attribute = request.getSession().getAttribute(token);
         if (attribute == null) {
             return Result.error(ResultCodeEnum.FAIL_TOKENNOFINDED);
         }

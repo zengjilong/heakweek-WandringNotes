@@ -36,20 +36,21 @@ public class ArticleController {
     DateConverterConfig dateConverter;
     @RequestMapping(value = "/file",method = RequestMethod.POST)
     @CrossOrigin
-    void createArticle(@RequestPart(value = "file",required = false) MultipartFile file){
+    Result createArticle(@RequestPart(value = "file",required = false) MultipartFile file){
         System.out.println(file);
-        System.out.println(file==null);
+        if(file==null) return Result.error();
         System.out.println(file.getSize());
+        return Result.ok();
     }
     @RequestMapping(value = "/addArticle",method = RequestMethod.POST)
     @CrossOrigin    //@RequestBody Map<String,Object> params,HttpServletRequest request ){
-    Result createArticle(
-                          @RequestPart(value = "img",required = false) MultipartFile img,
-                          @RequestParam(value = "token") String token,
+    Result createArticle( @RequestPart(value = "img",required = false) MultipartFile img,
+                          @RequestParam(value = "token",required = false) String token,
                           @RequestParam(value = "title",required = false) String title,
                           @RequestParam(value = "content",required = false) String content,
                           HttpServletRequest request){
         try {
+            if (token==null||token.length()==0) return Result.error(ResultCodeEnum.FAIL_TOKENNONULL);
             Object attribute = request.getSession().getAttribute(token);
             System.out.println(token);
             if (attribute == null) {
@@ -80,24 +81,27 @@ public class ArticleController {
 
     @RequestMapping(value = "/listArticle",method = RequestMethod.POST)
     @CrossOrigin
-   public ResultPage list(@RequestBody Map<String,String> params,HttpServletRequest request)throws Exception{
+   public ResultPage list(@RequestParam(value = "token") String token,
+                          @RequestParam(value = "start",required = false,defaultValue = "0")int start,
+                          @RequestParam(value = "start",required = false,defaultValue = "30")int size,
+                          HttpServletRequest request)throws Exception{
         try {
-           String token=params.get("token");
+//           String token=params.get("token");
             System.out.println(token);
             Object attribute = request.getSession().getAttribute(token);
             System.out.println(attribute);
-            if (token == null) {
+            if (attribute == null) {
                return ResultPage.error(ResultCodeEnum.FAIL_TOKENNOFINDED); //token未找到
            }
            int userId = (int)attribute;
-           int start=0;
-           String start1 = params.get("start");
-           if (start1==null||start1.length()==0) start=0;
-           else start=Integer.valueOf(params.get("start"));
-           String size1 = params.get("size");
-           int size=30;
-           if (size1==null||size1.length()==0) size=30;
-           else size=Integer.valueOf(params.get("size"));
+//           int start=0;
+//           String start1 = params.get("start");
+//           if (start1==null||start1.length()==0) start=0;
+//           else start=Integer.valueOf(params.get("start"));
+//           String size1 = params.get("size");
+//           int size=30;
+//           if (size1==null||size1.length()==0) size=30;
+//           else size=Integer.valueOf(params.get("size"));
            PageHelper.startPage(start, size, "articleId desc");
            List<Article> articleList = articleService.listArticle(userId);
            PageInfo<Article> page = new PageInfo<>(articleList);
